@@ -1,6 +1,7 @@
 const Owner = require("../models/Owner");
 const Employee = require("../models/Employee");
 const User = require("../models/User");
+const jwt = require("jsonwebtoken");
 
 const selectUserRole = async (req, res) => {
   const { role, user_id } = req.body;
@@ -43,6 +44,16 @@ const selectUserRole = async (req, res) => {
   }
 };
 
+const loginUser = async (req, res) => {
+  const { _id } = req.body;
+
+  const validUser = await User.find({googleId: _id});
+  
+  const token = jwt.sign({validUser}, "TOP_SECRET_KEY")
+  res.send(token)
+}
+
 module.exports = {
   selectUserRole,
+  loginUser
 };

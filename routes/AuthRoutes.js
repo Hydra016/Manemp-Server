@@ -5,6 +5,13 @@ module.exports = (app) => {
   app.get(
     "/auth/google",
     passport.authenticate("google", {
+      scope: ['profile', 'email']
+    })
+  );
+
+  app.get(
+    "/auth/google/employee",
+    passport.authenticate("google-employee", {
       scope: ["profile", "email"],
     })
   );
@@ -13,10 +20,22 @@ module.exports = (app) => {
     "/auth/google/callback",
     passport.authenticate("google"),
     (req, res) => {
-      if(req.user.shopName) {
-        res.redirect("http://localhost:3000");
-      } else {
-        res.redirect("http://localhost:3000/setup");
+        if(req.user.role === 'business') {
+          if (req.user.shopName) {
+            res.redirect("http://localhost:3000");
+          } else {
+            res.redirect("http://localhost:3000/setup");
+          }
+        }
+    }
+  );
+
+  app.get(
+    "/auth/google/callback/employee",
+    passport.authenticate("google-employee"),
+    (req, res) => {
+      if(req.user.role === 'employee') {
+        res.redirect("http://localhost:3000")
       }
     }
   );

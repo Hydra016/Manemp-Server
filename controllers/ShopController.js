@@ -22,6 +22,8 @@ const getAllShops = async (req, res) => {
     }
 }
 
+
+
 module.exports = {
     createShop,
     getAllShops

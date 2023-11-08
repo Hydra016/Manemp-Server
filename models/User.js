@@ -7,7 +7,10 @@ const UserSchema = new Schema({
     familyName: String,
     email: String,
     shopName: String,
-    password: String
+    password: String,
+    shopType: String,
+    role: String,
+    picture: String
 })
 
 module.exports = mongoose.model('user', UserSchema)

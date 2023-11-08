@@ -6,7 +6,10 @@ const EmployeeSchema = new Schema({
     givenName: String,
     familyName: String,
     email: String,
-    role: String
+    role: String,
+    picture: String,
+    shops: [String],
+    shopType: String
 })
 
 module.exports = mongoose.model('Employees', EmployeeSchema)
