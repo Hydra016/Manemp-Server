@@ -4,18 +4,22 @@ const { Schema } = mongoose;
 const RequestSchema = new Schema({
     businessId: String,
     employeeId: String,
-    yes: {
-        type: String,
-        default: 0
+    status: {
+      accepted: {
+        type: Number,
+        default: 0,
+      },
+      pending: {
+        type: Number,
+        default: 0,
+      },
+      rejected: {
+        type: Number,
+        default: 0,
+      },
     },
-    pending: {
-        type: String,
-        default: 0
-    },
-    no: {
-        type: String,
-        default: 0
-    }
-})
+  }, {
+    timestamps: true,
+  });
 
 module.exports = mongoose.model('request', RequestSchema)

@@ -4,7 +4,6 @@ const User = require("../models/User");
 const Employee = require("../models/Employee");
 
 passport.serializeUser((user, done) => {
-  console.log(user.id)
   done(null, user.id);
 });
 
