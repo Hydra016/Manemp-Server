@@ -11,12 +11,6 @@ const createEmployee = async (req, res) => {
   res.status(200).json({ success: true, data: empName });
 };
 
-// const getSingleEmployee = async (req, res) => {
-//     const { employeeId } = req.body;
-
-//     const singleEmployee = await Employee.findOne(employeeId);
-// }
-
 const getEmployeesForRequest = async (req, res) => {
   try {
     const { ids } = req.body;
@@ -27,12 +21,25 @@ const getEmployeesForRequest = async (req, res) => {
 
     res.status(200).json({ success: true, employees });
   } catch (error) {
-    console.error(error);zq     	
+    console.error(error);
+    zq;
     res.status(500).json({ error: "Server error" });
+  }
+};
+
+const getEmployeeForBusiness = async (req, res) => {
+  try {
+    const { shopId } = req.body;
+    const employees = await Employee.find({ shops: { $in: [shopId] } });
+
+    res.status(200).json(employees);
+  } catch (error) {
+    res.status(500).send("Internal Server Error");
   }
 };
 
 module.exports = {
   createEmployee,
   getEmployeesForRequest,
+  getEmployeeForBusiness,
 };
