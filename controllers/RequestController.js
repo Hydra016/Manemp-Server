@@ -8,11 +8,11 @@ const sendRequest = async (req, res) => {
   try {
     const existingRequest = await Request.findOne({
       businessId,
+      employeeId
     });
 
     if (existingRequest) {
       const requests = await Request.find({ employeeId });
-
       res.status(200).json({
         success: true,
         data: requests,
@@ -87,12 +87,10 @@ const fetchRequestData = async (req, res) => {
 const acceptRequest = async (req, res) => {
   const { employeeId, requestId, userId } = req.body;
 
-  console.log(employeeId, requestId, userId )
-
   try {
     const updatedEmployee = await Employee.findOneAndUpdate(
-      { googleId: employeeId, shops: { $ne: userId } },
-      { $push: { shops: userId } },
+      { googleId: employeeId, 'shops.shopId': { $ne: userId } },
+      { $push: { 'shops': { shopId: userId } } },
       { new: true }
     );
 
@@ -119,6 +117,7 @@ const acceptRequest = async (req, res) => {
     res.status(500).json({ message: "Internal Server Error" });
   }
 };
+
 
 module.exports = {
   sendRequest,

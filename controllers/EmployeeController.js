@@ -1,5 +1,4 @@
 const Employee = require("../models/Employee");
-const jwt = require("jsonwebtoken");
 const mongoose = require("mongoose");
 
 const createEmployee = async (req, res) => {
@@ -22,7 +21,6 @@ const getEmployeesForRequest = async (req, res) => {
     res.status(200).json({ success: true, employees });
   } catch (error) {
     console.error(error);
-    zq;
     res.status(500).json({ error: "Server error" });
   }
 };
@@ -30,9 +28,28 @@ const getEmployeesForRequest = async (req, res) => {
 const getEmployeeForBusiness = async (req, res) => {
   try {
     const { shopId } = req.body;
-    const employees = await Employee.find({ shops: { $in: [shopId] } });
+    const employees = await Employee.find({ "shops.shopId": shopId });
 
     res.status(200).json(employees);
+  } catch (error) {
+    res.status(500).send("Internal Server Error");
+  }
+};
+
+const setEmployeeSalary = async (req, res) => {
+  try {
+    const { empId, salary } = req.body;
+    console.log(empId, salary);
+
+    const employee = await Employee.findById(empId);
+    await employee
+      .set({
+        salary,
+      })
+      .save();
+
+    const employees = await Employee.find();
+    res.send(employees);
   } catch (error) {
     res.status(500).send("Internal Server Error");
   }
@@ -42,4 +59,5 @@ module.exports = {
   createEmployee,
   getEmployeesForRequest,
   getEmployeeForBusiness,
+  setEmployeeSalary,
 };

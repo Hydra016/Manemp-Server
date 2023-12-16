@@ -71,7 +71,7 @@ passport.use(
           role: "employee",
           picture: profile.photos[0].value,
           shops: [],
-          shopType: ''
+          salary: null
         }).save();
         done(null, employee);
       }

@@ -1,13 +1,15 @@
 const Shift = require('../models/Shift');
 
 const createShift = async (req, res) => {
-    const { day, start, end, hours } = req.body;
+    const { day, start, end, hours, employeeId, amount } = req.body;
 
     await new Shift({
         day,
         start,
         end,
-        hours
+        hours,
+        employeeId,
+        amount
     }).save()
 
     const shifts = await Shift.find();

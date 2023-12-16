@@ -8,8 +8,16 @@ const EmployeeSchema = new Schema({
     email: String,
     role: String,
     picture: String,
-    shops: [String],
-    shopType: String
+    shops: [
+        {
+            shopId: String,
+            dateJoined: {
+                type: Date,
+                default: Date.now
+            }
+        }
+    ],
+    salary: Number
 })
 
 module.exports = mongoose.model('Employees', EmployeeSchema)
