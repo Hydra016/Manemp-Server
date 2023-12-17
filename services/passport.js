@@ -52,8 +52,8 @@ passport.use(
   "google-employee",
   new GoogleStrategy(
     {
-      clientID: process.env.GOOGLE_CLIENT_ID_EMPLOYEE,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET_EMPLOYEE,
+      clientID: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
       callbackURL: "/auth/google/callback/employee",
       proxy: true,
     },
