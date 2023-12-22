@@ -39,7 +39,6 @@ const getEmployeeForBusiness = async (req, res) => {
 const setEmployeeSalary = async (req, res) => {
   try {
     const { empId, salary } = req.body;
-    console.log(empId, salary);
 
     const employee = await Employee.findById(empId);
     await employee
@@ -55,9 +54,21 @@ const setEmployeeSalary = async (req, res) => {
   }
 };
 
+const getEmployee = async (req, res) => {
+  try {
+    const { empId } = req.body;
+
+    const employee = await Employee.findById(empId);
+    res.status(200).json({ success: true, employee })
+  } catch (err) {
+    res.status(500).send("Internal Server Error")
+  }
+}
+
 module.exports = {
   createEmployee,
   getEmployeesForRequest,
   getEmployeeForBusiness,
   setEmployeeSalary,
+  getEmployee
 };

@@ -41,8 +41,20 @@ const deleteShift = async (req, res) => {
     }
 }
 
+const getShiftByEmployee = async (req, res) => {
+    const { employeeId } = req.body;
+
+    try {
+        const shifts = await Shift.find({ employeeId });
+        res.status(200).send({ success: true, data: shifts })
+    } catch (error) {
+        res.status(500).json({ msg: 'Internal server error' })
+    }
+}
+
 module.exports = {
     createShift,
     getShift,
-    deleteShift
+    deleteShift,
+    getShiftByEmployee
 }
