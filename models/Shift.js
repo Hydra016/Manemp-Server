@@ -7,6 +7,7 @@ const ShiftSchema = new Schema({
     start: String,
     hours: Number,
     employeeId: String,
+    shopId: String,
     amount: Number
 })
 

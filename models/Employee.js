@@ -11,6 +11,7 @@ const EmployeeSchema = new Schema({
     shops: [
         {
             shopId: String,
+            shopName: String,
             dateJoined: {
                 type: Date,
                 default: Date.now

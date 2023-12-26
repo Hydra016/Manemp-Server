@@ -1,4 +1,6 @@
 const Employee = require("../models/Employee");
+const Request = require("../models/Request");
+const Shift = require("../models/Shift");
 const mongoose = require("mongoose");
 
 const createEmployee = async (req, res) => {
@@ -58,17 +60,43 @@ const getEmployee = async (req, res) => {
   try {
     const { empId } = req.body;
 
-    const employee = await Employee.findById(empId);
+    const employee = await Employee.find({ googleId: empId });
     res.status(200).json({ success: true, employee })
   } catch (err) {
     res.status(500).send("Internal Server Error")
   }
 }
 
+const removeEmployee = async (req, res) => {
+  try {
+    const { businessId, employeeId } = req.body;
+    const result = await Employee.findOneAndUpdate(
+      { googleId: employeeId, 'shops.shopId': businessId },
+      {
+        $pull: { 'shops': { shopId: businessId } },
+        $set: { salary: null } 
+      },
+      { new: true }
+    );
+    await Request.findOneAndDelete({ businessId, employeeId });
+    // await Shift.fi
+    if (!result) {
+      return res.status(404).json({ message: 'Employee or Shop not found' });
+    }
+
+    res.json({ message: requestResult });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+};
+
+
 module.exports = {
   createEmployee,
   getEmployeesForRequest,
   getEmployeeForBusiness,
   setEmployeeSalary,
-  getEmployee
+  getEmployee,
+  removeEmployee
 };

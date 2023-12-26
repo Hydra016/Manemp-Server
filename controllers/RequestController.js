@@ -72,9 +72,17 @@ const fetchRequestData = async (req, res) => {
   try {
     if (businessId) {
       const business = await User.findOne({ googleId: businessId });
+      if(!business) {
+        await Request.deleteMany({ businessId });
+        res.status(200).json({ success: true, msg: 'no requests' })
+      }
       res.status(200).json({ success: true, data: business });
     } else if (employeeId) {
       const employee = await Employee.findOne({ googleId: employeeId });
+      if(!employee) {
+        await Request.deleteMany({ employeeId });
+        res.status(200).json({ success: true, msg: 'no requests' })
+      }
       res.status(200).json({ success: true, data: employee });
     } else {
       res.status(404).send("request not found");
@@ -85,12 +93,12 @@ const fetchRequestData = async (req, res) => {
 };
 
 const acceptRequest = async (req, res) => {
-  const { employeeId, requestId, userId } = req.body;
+  const { employeeId, requestId, userId, shopName } = req.body;
 
   try {
     const updatedEmployee = await Employee.findOneAndUpdate(
       { googleId: employeeId, 'shops.shopId': { $ne: userId } },
-      { $push: { 'shops': { shopId: userId } } },
+      { $push: { 'shops': { shopId: userId, shopName } } },
       { new: true }
     );
 
