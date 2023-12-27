@@ -15,6 +15,9 @@ const session = require('express-session');
 
 const app = express();
 
+const http = require('http').Server(app)
+const io = require('socket.io')(http);
+
 app.use(express.json());
 
 mongoose.connect(process.env.DB_STRING_DEV);
@@ -49,6 +52,11 @@ require("./routes/AuthRoutes")(app);
 app.use("/api", [shiftRoute, employeeRoute, shopRoutes, userRoutes, requestRoutes]);
 
 const PORT = 5000;
-app.listen(PORT, () => {
+
+io.on('connection', function(socket) {
+  console.log('user connected!')
+})
+
+http.listen(PORT, () => {
   console.log(`app running on port: ${PORT}`);
 });

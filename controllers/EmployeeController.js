@@ -79,12 +79,13 @@ const removeEmployee = async (req, res) => {
       { new: true }
     );
     await Request.findOneAndDelete({ businessId, employeeId });
-    // await Shift.fi
+    const removedShifts = await Shift.deleteMany({ shopId: businessId, employeeId });
+
     if (!result) {
-      return res.status(404).json({ message: 'Employee or Shop not found' });
+      return res.status(404).json({ message: 'remvoed' });
     }
 
-    res.json({ message: requestResult });
+    res.json({ message: removedShifts });
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: 'Internal Server Error' });
