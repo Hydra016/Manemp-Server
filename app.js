@@ -5,6 +5,7 @@ const shiftRoute = require("./routes/ShiftRoutes");
 const shopRoutes = require("./routes/ShopRoutes");
 const userRoutes = require("./routes/UserRoutes");
 const requestRoutes = require("./routes/RequestRoutes");
+const scheduleRoutes = require("./routes/ScheduleRoutes");
 require("dotenv").config();
 const cors = require("cors");
 const passport = require("passport");
@@ -49,7 +50,7 @@ app.use(cors({
 }));
 
 require("./routes/AuthRoutes")(app);
-app.use("/api", [shiftRoute, employeeRoute, shopRoutes, userRoutes, requestRoutes]);
+app.use("/api", [shiftRoute, employeeRoute, shopRoutes, userRoutes, requestRoutes, scheduleRoutes]);
 
 const PORT = 5000;
 
