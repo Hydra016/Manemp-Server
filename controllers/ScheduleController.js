@@ -23,10 +23,17 @@ const setSchedule = async (req, res) => {
 
 const getSchedule = async (req, res) => {
   try {
-    const { shopId } = req.body;
+    const { shopId, empId } = req.body;
 
-    const schedule = await Schedule.find({ shopId });
-    res.status(200).json({ success: true, data: schedule });
+    if (shopId) {
+      const schedule = await Schedule.find({ shopId });
+      res.status(200).json({ success: true, data: schedule });
+    }
+
+    if (empId) {
+      const schedule = await Schedule.find({ employeeId: empId });
+      res.status(200).json({ success: true, data: schedule });
+    }
   } catch (err) {
     res.status(500).send("Internal server error");
   }
@@ -35,7 +42,6 @@ const getSchedule = async (req, res) => {
 const deleteSchedule = async (req, res) => {
   const { shifts, shopId } = req.body;
 
-  console.log(shifts)
   try {
     await Promise.all(
       shifts.map(async (shiftId) => {
